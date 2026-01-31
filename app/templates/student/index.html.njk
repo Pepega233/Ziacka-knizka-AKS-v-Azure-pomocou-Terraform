@@ -1,0 +1,23 @@
+{% extends "layout.html.njk" %}
+{% block title %}Moje predmety{% endblock %}
+
+{% block content %}
+    <h2 class="mb-4">Moje predmety</h2>
+
+    <div class="row g-4">
+        {% for s in subjects %}
+            <div class="col-md-4">
+                <a href="/student/subject/{{ s.id_subject }}"
+                   class="card shadow-sm text-decoration-none h-100">
+                    <div class="card-body text-center">
+                        <h5>{{ s.name_subject }}</h5>
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% if not subjects.length %}
+        <p class="text-muted">Zatiaľ nemáš žiadne predmety.</p>
+    {% endif %}
+{% endblock %}

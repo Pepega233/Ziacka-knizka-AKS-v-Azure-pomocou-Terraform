@@ -1,0 +1,50 @@
+{% extends "layout.html.njk" %}
+{% block title %}Detail používateľa{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+
+        <h2 class="mb-3">Detail používateľa</h2>
+
+        <ul class="list-group mb-4">
+            <li class="list-group-item"><b>Username:</b> {{ user.username }}</li>
+            <li class="list-group-item"><b>Meno:</b> {{ user.name }} {{ user.lastname }}</li>
+            <li class="list-group-item"><b>Rola:</b> {{ user.roles }}</li>
+        </ul>
+
+        {% if user.roles == 'student' %}
+            <h4>Trieda</h4>
+
+            {% if studentClass %}
+                <p class="list-group-item">
+                    {{ studentClass.year }}.{{ studentClass.class1 }}
+                </p>
+            {% else %}
+                <p class="text-muted">Žiak nie je zaradený do triedy</p>
+            {% endif %}
+        {% endif %}
+
+        {% if user.roles == 'teacher' %}
+            <h4>Predmety a triedy</h4>
+
+            {% if teacherAssignments.length %}
+                <ul class="list-group">
+                    {% for a in teacherAssignments %}
+                        <li class="list-group-item">
+                            {{ a.name_subject }} – {{ a.year }}.{{ a.class1 }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="text-muted">Učiteľ nemá priradené predmety</p>
+            {% endif %}
+        {% endif %}
+
+        <div class="mt-4">
+            <a href="/admin/users" class="btn btn-secondary">
+                Späť na zoznam používateľov
+            </a>
+        </div>
+
+    </div>
+{% endblock %}

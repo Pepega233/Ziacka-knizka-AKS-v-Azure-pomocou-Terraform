@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Žiacka knižka{% endblock %}</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.2/dist/yeti/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
+</head>
+<body class="bg-light">
+
+<nav class="navbar navbar-dark bg-dark px-3">
+    <span class="navbar-brand">Žiacka knižka</span>
+
+    {% if user %}
+        <div class="d-flex align-items-center gap-2">
+            <span class="text-white small">
+                {{ user.name }} {{ user.lastname }}
+            </span>
+            <a href="/user/logout" class="btn btn-sm btn-outline-danger">
+                Odhlásiť
+            </a>
+        </div>
+    {% endif %}
+</nav>
+
+<div class="container mt-4">
+    {% for message in flash.success %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% for message in flash.info %}
+        <div class="alert alert-info">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% for message in flash.edit %}
+        <div class="alert alert-warning">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% for message in flash.delete %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% block content %}{% endblock %}
+</div>
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js">
+</script>
+</body>
+</html>

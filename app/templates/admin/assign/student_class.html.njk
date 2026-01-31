@@ -1,0 +1,55 @@
+{% extends "layout.html.njk" %}
+{% block title %}Zaradenie žiaka do triedy{% endblock %}
+
+{% block content %}
+    <h1 class="text-center mb-4"> Zaradenie žiaka do triedy</h1>
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <div class="card shadow-sm">
+                <div class="card-body">
+
+                    <form method="POST" action="/admin/assign/student">
+
+                        <div class="mb-3">
+                            <label class="form-label">Žiak</label>
+                            <select name="id_student" class="form-select" required>
+                                <option value="">-- vyber žiaka --</option>
+                                {% for s in students %}
+                                    <option value="{{ s.id_user }}">
+                                        {{ s.name }} {{ s.lastname }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">Trieda</label>
+                            <select name="id_class" class="form-select" required>
+                                <option value="">-- vyber triedu --</option>
+                                {% for c in classes %}
+                                    <option value="{{ c.id_class }}">
+                                        {{ c.year }}.{{ c.class1 }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="text-center">
+                            <button class="btn btn-success px-4">
+                                Uložiť
+                            </button>
+                            <a href="/admin" class="btn btn-secondary ms-2">
+                                Späť
+                            </a>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

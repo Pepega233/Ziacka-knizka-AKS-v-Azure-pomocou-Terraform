@@ -1,0 +1,73 @@
+{% extends "layout.html.njk" %}
+{% block title %}Triedy{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4">Triedy</h1>
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
+
+    <div class="d-flex justify-content-end mb-3">
+        <a href="/admin/classes/create" class="btn btn-success">
+            + Pridať triedu
+        </a>
+    </div>
+
+    <table id="classesTable" class="display table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Ročník</th>
+            <th>Trieda</th>
+            <th>Akcie</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for c in classes %}
+            <tr>
+                <td>{{ c.id_class }}</td>
+                <td>{{ c.year }}</td>
+                <td>{{ c.class1 }}</td>
+                <td>
+                    <a href="/admin/classes/{{ c.id_class }}"
+                       class="btn btn-sm btn-info me-1">
+                        Detail
+                    </a>
+
+                    <a href="/admin/classes/edit/{{ c.id_class }}"
+                       class="btn btn-sm btn-warning me-1">
+                        Upraviť
+                    </a>
+
+                    <form method="POST"
+                          action="/admin/classes/delete/{{ c.id_class }}"
+                          style="display:inline">
+                        <button class="btn btn-sm btn-danger"
+                                onclick="return confirm('Naozaj chceš odstrániť triedu?')">
+                            Zmazať
+                        </button>
+                    </form>
+                </td>
+
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="mt-3 text-center">
+        <a href="/admin" class="btn btn-outline-secondary w-100">
+            Späť do admin panelu
+        </a>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#classesTable').DataTable({
+                language: {
+                    url: "//cdn.datatables.net/plug-ins/1.13.8/i18n/sk.json"
+                }
+            });
+        });
+    </script>
+{% endblock %}

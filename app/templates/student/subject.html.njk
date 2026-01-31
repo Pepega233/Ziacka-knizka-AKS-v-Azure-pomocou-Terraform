@@ -1,0 +1,52 @@
+{% extends "layout.html.njk" %}
+{% block title %}{{ subject.name_subject }}{% endblock %}
+
+{% block content %}
+    <h2 class="mb-4">{{ subject.name_subject }} - {{ subject.teacher_name }} {{ subject.teacher_lastname }}</h2>
+
+
+    {% if grades.length %}
+        {% if average %}
+            <div class="alert alert-info">
+                Priemer z predmetu:
+                {% if average <= 1.5 %}
+                    <span class="text-success fw-bold">{{ average }}</span>
+                {% elseif average <= 2.5 %}
+                    <span class="text-primary fw-bold">{{ average }}</span>
+                {% elseif average <= 3.5 %}
+                    <span class="text-warning fw-bold">{{ average }}</span>
+                {% else %}
+                    <span class="text-danger fw-bold">{{ average }}</span>
+                {% endif %}
+            </div>
+        {% endif %}
+
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Známka</th>
+                <th>Poznámka</th>
+                <th>Dátum</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for g in grades %}
+                <tr>
+                    <td><strong>{{ g.value }}</strong></td>
+                    <td>{{ g.note if g.note else "-" }}</td>
+                    <td>{{ g.created }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="text-muted">
+            Nemáš zatiaľ priradené žiadne známky.
+        </p>
+    {% endif %}
+
+    <a href="/student" class="btn btn-outline-secondary w-100">
+        Späť na predmety
+    </a>
+{% endblock %}

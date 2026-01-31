@@ -1,0 +1,129 @@
+{% extends "layout.html.njk" %}
+{% block title %}{{ subject.name_subject }}{% endblock %}
+
+{% block content %}
+    <h2 class="mb-4">
+        {{ subject.name_subject }} – {{ subject.year }}.{{ subject.class1 }}
+    </h2>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            {% if students.length %}
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Žiak</th>
+                            <th>Známka</th>
+                            <th>Poznámka</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        {% for s in students %}
+
+                            {# HLAVIČKA ŽIAKA #}
+                            <tr class="table-primary">
+                                <td colspan="4">
+                                    <strong>{{ s.name }} {{ s.lastname }}</strong>
+                                </td>
+                            </tr>
+
+                            {# EXISTUJÚCE ZNÁMKY #}
+                            {% for g in s.grades %}
+                                <tr>
+                                    <td>
+                                        <!-- DELETE ZNÁMKY -->
+                                        <form method="POST"
+                                              action="/teacher/classes/{{ classId }}/subject/{{ subjectId }}/grade/{{ g.id_grade }}/delete"
+                                              style="display:inline">
+                                            <button class="btn btn-danger btn-sm"
+                                                    onclick="return confirm('Naozaj chceš odstrániť známku?')">
+                                                Zmazať
+                                            </button>
+                                        </form>
+                                    </td>
+
+                                    <td colspan="3">
+                                        <!-- EDIT ZNÁMKY -->
+                                        <form method="POST"
+                                              action="/teacher/classes/{{ classId }}/subject/{{ subjectId }}/grade/{{ g.id_grade }}/edit"
+                                              class="d-flex gap-1">
+
+                                            <select name="value"
+                                                    class="form-select form-select-sm"
+                                                    required>
+                                                {% for i in [1,2,3,4,5] %}
+                                                    <option value="{{ i }}"
+                                                            {% if g.value == i %}selected{% endif %}>
+                                                        {{ i }}
+                                                    </option>
+                                                {% endfor %}
+                                            </select>
+
+                                        <input type="text"
+                                               name="note"
+                                               value="{{ g.note }}"
+                                               class="form-control form-control-sm">
+
+                                        <button class="btn btn-warning btn-sm">
+                                            Uložiť
+                                        </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+
+                            {# PRIDAŤ NOVÚ ZNÁMKU #}
+                            <tr class="table-secondary">
+                                <td></td>
+
+                                <td colspan="3">
+                                    <form method="POST"
+                                          action="/teacher/classes/{{ classId }}/subject/{{ subjectId }}/grade/add"
+                                          class="d-flex gap-2">
+
+                                        <input type="hidden"
+                                               name="studentId"
+                                               value="{{ s.id_user }}">
+
+                                        <select name="value"
+                                                class="form-select form-select-sm"
+                                                required>
+                                            <option value="">–</option>
+                                            {% for i in [1,2,3,4,5] %}
+                                                <option value="{{ i }}">{{ i }}</option>
+                                            {% endfor %}
+                                        </select>
+
+                                        <input type="text"
+                                               name="note"
+                                               class="form-control form-control-sm"
+                                               placeholder="Poznámka">
+
+                                        <button class="btn btn-success btn-sm">
+                                            Pridať
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </form>
+            {% else %}
+                <p class="text-muted">
+                    V tejto triede nie sú žiadni žiaci.
+                </p>
+            {% endif %}
+
+        </div>
+    </div>
+
+    <a href="/teacher/classes/{{ classId }}"
+       class="btn btn-outline-secondary w-100 mt-3">
+        Späť
+    </a>
+{% endblock %}

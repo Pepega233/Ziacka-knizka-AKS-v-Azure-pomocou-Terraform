@@ -1,0 +1,81 @@
+{% extends "layout.html.njk" %}
+{% block title %}{{ subject.name_subject }}{% endblock %}
+
+{% block content %}
+    <h2 class="mb-4">{{ subject.name_subject }} – {{ subject.year }}. {{ subject.class1 }}</h2>
+
+    <link rel="stylesheet"
+          href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            {% if students.length %}
+                <table id="usersTable" class="display table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Meno</th>
+                        <th>Priezvisko</th>
+                        <th>Známky</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for s in students %}
+                        <tr>
+                            <td>{{ s.name }}</td>
+                            <td>{{ s.lastname }}</td>
+                            <td>{{ s.grades if s.grades else "-" }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="text-muted">
+                    Nemáš zatiaľ priradené žiadne predmety.
+                </p>
+            {% endif %}
+
+        </div>
+    </div>
+    <a href="/teacher/classes/{{ classId }}" class="btn btn-outline-secondary w-100">
+        Späť
+    </a>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+
+    <script>
+      $(document).ready(function () {
+        $('#usersTable').DataTable({
+          language: {
+            url: "//cdn.datatables.net/plug-ins/1.13.8/i18n/sk.json"
+          }
+        });
+      });
+    </script>
+
+    <script>
+      const roleSelect = document.getElementById("roleSelect");
+      const classSection = document.getElementById("classSection");
+      const subjectSection = document.getElementById("subjectSection");
+
+      roleSelect.addEventListener("change", () => {
+        classSection.classList.add("d-none");
+        subjectSection.classList.add("d-none");
+
+        if (roleSelect.value === "student") {
+          classSection.classList.remove("d-none");
+        }
+        if (roleSelect.value === "teacher") {
+          subjectSection.classList.remove("d-none");
+        }
+      });
+
+      $(document).ready(function () {
+        $('#usersTable').DataTable({
+          language: {
+            url: "//cdn.datatables.net/plug-ins/1.13.8/i18n/sk.json"
+          }
+        });
+      });
+    </script>
+{% endblock %}

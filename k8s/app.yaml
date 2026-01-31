@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ziacka-knizka
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ziacka-knizka
+  template:
+    metadata:
+      labels:
+        app: ziacka-knizka
+    spec:
+      containers:
+        - name: ziacka-knizka
+          image: pepega2323/ziacka-knizka:1.1
+          ports:
+            - containerPort: 3000
+          env:
+            - name: DB_HOST
+              value: cms-db
+            - name: DB_USER
+              value: cms
+            - name: DB_PASSWORD
+              value: Heslo123
+            - name: DB_DATABASE
+              value: cms
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ziacka-knizka
+spec:
+  type: LoadBalancer
+  selector:
+    app: ziacka-knizka
+  ports:
+    - port: 80
+      targetPort: 3000

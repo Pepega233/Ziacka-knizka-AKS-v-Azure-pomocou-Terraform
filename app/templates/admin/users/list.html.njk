@@ -1,0 +1,80 @@
+{% extends "layout.html.njk" %}
+{% block title %}Používatelia{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4">Používatelia</h1>
+
+    <link rel="stylesheet"
+          href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
+
+    <div class="d-flex justify-content-end mb-3">
+        <a href="/admin/register" class="btn btn-success">
+            + Pridať používateľa
+        </a>
+    </div>
+
+    <table id="usersTable" class="display table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Meno</th>
+            <th>Priezvisko</th>
+            <th>Rola</th>
+            <th>Akcie</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for u in users %}
+            <tr>
+                <td>{{ u.id_user }}</td>
+                <td>{{ u.username }}</td>
+                <td>{{ u.name }}</td>
+                <td>{{ u.lastname }}</td>
+                <td>{{ u.roles }}</td>
+                <td>
+                    <a href="/admin/users/{{ u.id_user }}"
+                       class="btn btn-sm btn-info me-1">
+                        Detail
+                    </a>
+
+                    <a href="/admin/users/edit/{{ u.id_user }}"
+                       class="btn btn-sm btn-warning me-1">
+                        Upraviť
+                    </a>
+
+                    {% if u.roles != 'admin' %}
+                        <form method="POST"
+                              action="/admin/users/delete/{{ u.id_user }}"
+                              style="display:inline">
+                            <button class="btn btn-sm btn-danger"
+                                    onclick="return confirm('Naozaj chceš odstrániť používateľa?')">
+                                Zmazať
+                            </button>
+                        </form>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="mt-3 text-center">
+        <a href="/admin" class="btn btn-outline-secondary w-100">
+            Späť do admin panelu
+        </a>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#usersTable').DataTable({
+                language: {
+                    url: "//cdn.datatables.net/plug-ins/1.13.8/i18n/sk.json"
+                }
+            });
+        });
+    </script>
+{% endblock %}

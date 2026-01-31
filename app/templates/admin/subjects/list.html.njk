@@ -1,0 +1,67 @@
+{% extends "layout.html.njk" %}
+{% block title %}Predmety{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4">Predmety</h1>
+
+    <link rel="stylesheet"
+          href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
+
+    <div class="d-flex justify-content-end mb-3">
+        <a href="/admin/subjects/create" class="btn btn-success">
+            + Pridať predmet
+        </a>
+    </div>
+
+    <table id="subjectsTable" class="display table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Názov predmetu</th>
+            <th>Akcie</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for s in subjects %}
+            <tr>
+                <td>{{ s.id_subject }}</td>
+                <td>{{ s.name_subject }}</td>
+                <td>
+                    <a href="/admin/subjects/edit/{{ s.id_subject }}"
+                       class="btn btn-sm btn-warning me-1">
+                        Upraviť
+                    </a>
+
+                    <form method="POST"
+                          action="/admin/subjects/delete/{{ s.id_subject }}"
+                          style="display:inline">
+                        <button class="btn btn-sm btn-danger"
+                                onclick="return confirm('Naozaj chceš odstrániť predmet?')">
+                            Zmazať
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="mt-3 text-center">
+        <a href="/admin" class="btn btn-outline-secondary w-100">
+            Späť do admin panelu
+        </a>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#subjectsTable').DataTable({
+                language: {
+                    url: "//cdn.datatables.net/plug-ins/1.13.8/i18n/sk.json"
+                }
+            });
+        });
+    </script>
+{% endblock %}

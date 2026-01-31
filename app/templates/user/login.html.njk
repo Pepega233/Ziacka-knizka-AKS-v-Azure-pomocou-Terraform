@@ -1,0 +1,47 @@
+{% extends "layout.html.njk" %}
+
+{% block title %}Prihlásenie – Žiacka knižka{% endblock %}
+
+{% block styles %}
+    <style>
+        body {
+            background: #f0f2f5;
+        }
+        .login-container {
+            max-width: 400px;
+            margin: 90px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .title {
+            font-weight: 600;
+            margin-bottom: 25px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+
+    <div class="login-container">
+        <h3 class="text-center title">Žiacka knižka</h3>
+
+        <form id="loginForm" action="/user/check" method="post">
+
+            <div class="mb-3">
+                <label for="username" class="form-label">Používateľské meno</label>
+                <input type="text" id="username" name="username" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Heslo</label>
+                <input type="password" id="password"  name="password" class="form-control" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Prihlásiť sa</button>
+
+        </form>
+    </div>
+
+{% endblock %}

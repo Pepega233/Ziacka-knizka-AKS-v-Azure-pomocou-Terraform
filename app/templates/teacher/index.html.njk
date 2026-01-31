@@ -1,0 +1,44 @@
+{% extends "layout.html.njk" %}
+{% block title %}Učiteľský panel{% endblock %}
+
+{% block content %}
+    <h2 class="mb-4">Vitaj {{ user.name }} {{ user.lastname }}!</h2>
+
+    <link rel="stylesheet"
+          href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
+
+
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            <h2 class="mb-4">Moje triedy</h2>
+
+            <div class="row g-4">
+                {% for c in classes %}
+                    <div class="col-md-4">
+                        <a href="/teacher/classes/{{ c.id_class }}" class="card text-decoration-none shadow-sm h-100">
+                            <div class="card-body text-center">
+                                <h3 class="text-muted">{{ c.year }}{{ c.class1 }}</h3>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+
+    <script>
+      $(document).ready(function () {
+        $('#usersTable').DataTable({
+          language: {
+            url: "//cdn.datatables.net/plug-ins/1.13.8/i18n/sk.json"
+          }
+        });
+      });
+    </script>
+{% endblock %}

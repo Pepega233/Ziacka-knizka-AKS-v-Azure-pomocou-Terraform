@@ -1,0 +1,46 @@
+{% extends "layout.html.njk" %}
+{% block title %}Predmety v triede{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4">
+        {{ subjects[0].year }}.{{ subjects[0].class1 }}
+    </h1>
+
+    {% if subjects.length %}
+        <table id="usersTable" class="display table table-striped">
+            <thead>
+            <tr>
+                <th>Názov predmetu</th>
+                <th>Akcie</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for s in subjects %}
+                <tr>
+                    <td>{{ s.name_subject }}</td>
+                    <td>
+                        <a href="/teacher/classes/{{ classId }}/subject/{{ s.id_subject }}"
+                           class="btn btn-sm btn-info me-1">
+                            Zoznam žiakov
+                        </a>
+
+                        <a href="/teacher/classes/{{ classId }}/subject/edit/{{ s.id_subject }}"
+                           class="btn btn-sm btn-warning me-1">
+                            Pridať známky
+                        </a>
+
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="text-muted">
+            Nemáš zatiaľ priradené žiadne predmety.
+        </p>
+    {% endif %}
+
+    <a href="/teacher" class="btn btn-outline-secondary w-100">
+        Späť
+    </a>
+{% endblock %}

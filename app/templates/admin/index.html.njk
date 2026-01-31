@@ -1,0 +1,73 @@
+{% extends "layout.html.njk" %}
+
+{% block title %}Admin panel{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4">Admin panel</h1>
+
+    <div class="row g-4">
+
+        <div class="col-md-4">
+            <a href="/admin/users" class="card text-decoration-none shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5> Používatelia</h5>
+                    <p class="text-muted">Správa účtov</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <a href="/admin/register" class="card text-decoration-none shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5> Vytvorenie používateľa</h5>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <a href="/admin/classes" class="card text-decoration-none shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5> Triedy</h5>
+                    <p class="text-muted">Zoznam tried</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <a href="/admin/subjects" class="card text-decoration-none shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5>Predmety</h5>
+                    <p class="text-muted">Školské predmety</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <a href="/admin/assign/student" class="card text-decoration-none shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5> Žiak → Trieda</h5>
+                    <p class="text-muted">Zaradenie žiakov</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <a href="/admin/assign/subject" class="card text-decoration-none shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5> Predmet → Trieda</h5>
+                    <p class="text-muted">Priradenie predmetov</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <a href="/admin/assign/teacher" class="card text-decoration-none shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5> Učiteľ → Predmet</h5>
+                    <p class="text-muted">Výučba</p>
+                </div>
+            </a>
+        </div>
+
+    </div>
+{% endblock %}

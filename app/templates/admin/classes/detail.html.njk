@@ -1,0 +1,55 @@
+{% extends "layout.html.njk" %}
+{% block title %}Detail triedy{% endblock %}
+
+{% block content %}
+    <h1 class="mb-3 text-center">
+        Trieda {{ classItem.year }}.{{ classItem.class1 }}
+    </h1>
+
+    <link rel="stylesheet"
+          href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
+
+    <table id="studentsTable" class="display table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Trieda</th>
+            <th>Username</th>
+            <th>Meno</th>
+            <th>Priezvisko</th>
+            <th>Email</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for s in students %}
+            <tr>
+                <td>{{ s.id_user }}</td>
+                <td>{{ classItem.year }}.{{ classItem.class1 }}</td>
+                <td>{{ s.username }}</td>
+                <td>{{ s.name }}</td>
+                <td>{{ s.lastname }}</td>
+                <td>{{ s.email }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="mt-4 text-center">
+        <a href="/admin/classes" class="btn btn-outline-secondary w-100">
+            Späť na zoznam tried
+        </a>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#studentsTable').DataTable({
+                language: {
+                    url: "//cdn.datatables.net/plug-ins/1.13.8/i18n/sk.json"
+                }
+            });
+        });
+    </script>
+{% endblock %}

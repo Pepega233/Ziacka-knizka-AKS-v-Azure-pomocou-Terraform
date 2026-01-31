@@ -1,0 +1,121 @@
+{% extends "layout.html.njk" %}
+{% block title %}Upraviť používateľa{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h2 class="mb-4 text-center">Upraviť používateľa</h2>
+
+        <form method="POST" action="/admin/users/edit/{{ user.id_user }}">
+
+            <!-- USERNAME -->
+            <div class="mb-3">
+                <label class="form-label">Používateľské meno</label>
+                <input type="text"
+                       name="username"
+                       class="form-control"
+                       value="{{ user.username }}"
+                       required>
+            </div>
+
+            <!-- HESLO (NEPOVINNÉ) -->
+            <div class="mb-3">
+                <label class="form-label">Nové heslo (nepovinné)</label>
+                <input type="text"
+                       name="password"
+                       class="form-control"
+                       placeholder="Nechaj prázdne ak nechceš meniť">
+            </div>
+
+            <!-- MENO -->
+            <div class="mb-3">
+                <label class="form-label">Meno</label>
+                <input type="text"
+                       name="name"
+                       class="form-control"
+                       value="{{ user.name }}"
+                       required>
+            </div>
+
+            <!-- PRIEZVISKO -->
+            <div class="mb-3">
+                <label class="form-label">Priezvisko</label>
+                <input type="text"
+                       name="lastname"
+                       class="form-control"
+                       value="{{ user.lastname }}"
+                       required>
+            </div>
+
+            <!-- EMAIL -->
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="email"
+                       name="email"
+                       class="form-control"
+                       value="{{ user.email }}"
+                       required>
+            </div>
+
+            <!-- ROLA -->
+            <div class="mb-3">
+                <label class="form-label">Rola</label>
+                <select name="roles" class="form-select" required id="roleSelect">
+                    <option value="student" {% if user.roles=='student' %}selected{% endif %}>Žiak</option>
+                    <option value="teacher" {% if user.roles=='teacher' %}selected{% endif %}>Učiteľ</option>
+                    <option value="admin" {% if user.roles=='admin' %}selected{% endif %}>Administrátor</option>
+                </select>
+            </div>
+
+            <!-- TRIEDA (ŽIAK) -->
+            <div class="mb-3 {% if user.roles != 'student' %}d-none{% endif %}" id="classSection">
+                <label class="form-label">Trieda</label>
+                <select name="id_class" class="form-select">
+                    <option value="">-- vyber triedu --</option>
+                    {% for c in classes %}
+                        <option value="{{ c.id_class }}"
+                                {% if c.id_class == user.id_class %}selected{% endif %}>
+                            {{ c.year }}.{{ c.class1 }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- PREDMET (UČITEĽ) -->
+            <div class="mb-3 {% if user.roles != 'teacher' %}d-none{% endif %}" id="subjectSection">
+                <label class="form-label">Predmet</label>
+                <select name="id_subject" class="form-select">
+                    <option value="">-- vyber predmet --</option>
+                    {% for s in subjects %}
+                        <option value="{{ s.id_subject }}"
+                                {% if s.id_subject == user.id_subject %}selected{% endif %}>
+                            {{ s.name_subject }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <a href="/admin/users" class="btn btn-secondary">Späť</a>
+                <button class="btn btn-primary">Uložiť zmeny</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const roleSelect = document.getElementById("roleSelect");
+        const classSection = document.getElementById("classSection");
+        const subjectSection = document.getElementById("subjectSection");
+
+        roleSelect.addEventListener("change", () => {
+            classSection.classList.add("d-none");
+            subjectSection.classList.add("d-none");
+
+            if (roleSelect.value === "student") {
+                classSection.classList.remove("d-none");
+            }
+            if (roleSelect.value === "teacher") {
+                subjectSection.classList.remove("d-none");
+            }
+        });
+    </script>
+{% endblock %}

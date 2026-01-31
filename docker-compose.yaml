@@ -1,0 +1,75 @@
+services:
+  node:
+    container_name: cms-app
+
+    build:
+      context: ./docker/build/node_js
+
+    environment:
+      DB_HOST: cms-db
+      DB_DATABASE: cms
+      DB_USER: cms
+      DB_PASSWORD: ${DB_USER_PWD}
+
+      SMTP_HOST: fake-smtp
+      SMTP_PORT: 25
+
+
+    volumes:
+      - ./app:/opt/app
+
+    ports:
+      - "3000:3000"
+
+  db:
+    container_name: cms-mariadb
+    build:
+      context: ./docker/build/mariadb
+    environment:
+      MARIADB_DATABASE: cms
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PWD}
+      MARIADB_USER: cms
+      MARIADB_PASSWORD: ${DB_USER_PWD}
+    networks:
+      default:
+        aliases:
+          - cms-db
+    ports:
+       - "33996:3306"
+    volumes:
+      - ./docker/data/mariadb:/var/lib/mysql:delegated
+      - ./docker/build/mariadb/init_cms.sql:/docker-entrypoint-initdb.d/init_cms.sql
+
+  phpmyadmin:
+    image: phpmyadmin
+    ports:
+      - "8080:80"
+    environment:
+      - PMA_ARBITRARY=0
+      - PMA_HOST=cms-db
+
+
+  smtp4dev:
+    image: rnwood/smtp4dev:latest
+    restart: unless-stopped
+    ports:
+      # Change the number before : to the port the web interface should be accessible on
+      - '5000:80'
+      # Change the number before : to the port the SMTP server should be accessible on
+      # - '25:25'
+      # Change the number before : to the port the IMAP server should be accessible on
+      # - '143:143'
+    networks:
+      default:
+        aliases:
+          - fake-smtp
+    volumes:
+      # This is where smtp4dev stores the database..
+      - ./docker/data/smtp/sys:/smtp4dev
+      - ./docker/data/smtp/data:/smtp4dev-data
+    environment:
+      #Specifies the URLs the web UI will use inside the container.
+      - ServerOptions__Urls=http://*:80
+
+      #Specifies the server hostname. Used in auto-generated TLS certificate if enabled.
+      - ServerOptions__HostName=smtp4dev

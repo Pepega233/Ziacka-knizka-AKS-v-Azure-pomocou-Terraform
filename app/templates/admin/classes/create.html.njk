@@ -1,0 +1,58 @@
+{% extends "layout.html.njk" %}
+
+{% block title %}Pridať triedu{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+
+        <h2 class="mb-4 text-center">Pridať triedu</h2>
+
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+
+                <div class="card shadow-sm">
+                    <div class="card-body">
+
+                        <form method="POST" action="/admin/classes">
+
+                            <div class="mb-3">
+                                <label class="form-label">Ročník</label>
+                                <input type="number"
+                                       name="year"
+                                       class="form-control"
+                                       placeholder="napr. 1"
+                                       min="1"
+                                       max="9"
+                                       required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Trieda</label>
+                                <input type="text"
+                                       name="class1"
+                                       class="form-control"
+                                       placeholder="A, B, C"
+                                       maxlength="1"
+                                       required>
+                            </div>
+
+                            <div class="d-flex justify-content-between">
+                                <a href="/admin/classes" class="btn btn-secondary">
+                                    Späť
+                                </a>
+
+                                <button type="submit" class="btn btn-success">
+                                    Vytvoriť triedu
+                                </button>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
