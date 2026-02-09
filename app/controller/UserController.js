@@ -64,8 +64,9 @@ router.post("/check", async (req, res) => {
  */
 router.get("/logout", function (req, res) {
 
-    // Názov session cookie
-    let sessionName = req.session.name;
+    // Default názov session cookie v express-session je "connect.sid"
+    // (ak si ho nenastavil cez option "name" v session middleware).
+    const sessionCookieName = "connect.sid";
 
     // Zrušenie session
     req.session.destroy(function(err) {
@@ -76,7 +77,7 @@ router.get("/logout", function (req, res) {
             console.log('Logout OK');
 
             // Zmazanie session cookie
-            res.clearCookie(sessionName);
+            res.clearCookie(sessionCookieName);
 
             // Presmerovanie na úvodnú stránku
             res.redirect('/');

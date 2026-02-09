@@ -33,7 +33,6 @@ resource "azurerm_kubernetes_cluster" "aks" {
     vm_size    = var.vm_size
   }
 
-  # Toto dá clusteru "základ" na správu
   role_based_access_control_enabled = true
 
   network_profile {
